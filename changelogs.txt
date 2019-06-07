@@ -1,0 +1,13 @@
+v0.0.1
+    MapGen de base.
+    Genere une Room, verifie qu'elle tient dans la map.
+    Si elle tient dans la map, verifie qu'elle n'entre pas en collision avec une room existante.
+    Si tout est OK, elle est posée sur la map. Une nouvelle generation se poursuit.
+
+
+# TODO:
+    - Une nouvelle room doit être testée à une case de la précédente. Une "porte" / chemin les relie ensuite.
+    - Une room peut être deux rectangles fusionnés, pour des formes plus sympas.
+    - Une fois toutes les iterations faites, on regarde si il y a des passages possibles entre deux rooms autres.
+    - Forme aleatoire des rooms, pour eviter sentiment artificiel.
+            > Sur les bords, 55% 1, 45% 0. Si 010 = 000. Si 101 = 111.
