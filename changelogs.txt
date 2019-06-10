@@ -1,13 +1,38 @@
+v0.0.2
+    [/] Une nouvelle room doit être testée au contact de la précédente.
+    Refacto.
+    On genere une premiere room.
+    Les rooms suivantes tentent de se placer autour de la première.
+    Pour le moment, on prends des points au hasard autour de la première room.
+    Pas d'intelligence, donc repetitions nombreuses et peu utiles.
+    >> END : Sucess : 5 - Collisions : 25 - Out of Map : 1775 - Placement iteration : 1800
+
 v0.0.1
     MapGen de base.
     Genere une Room, verifie qu'elle tient dans la map.
     Si elle tient dans la map, verifie qu'elle n'entre pas en collision avec une room existante.
     Si tout est OK, elle est posée sur la map. Une nouvelle generation se poursuit.
+    (100 iterations, 20 success, 40 collisions, 40 out of map en moyenne).
 
 
 # TODO:
-    - Une nouvelle room doit être testée à une case de la précédente. Une "porte" / chemin les relie ensuite.
-    - Une room peut être deux rectangles fusionnés, pour des formes plus sympas.
-    - Une fois toutes les iterations faites, on regarde si il y a des passages possibles entre deux rooms autres.
-    - Forme aleatoire des rooms, pour eviter sentiment artificiel.
+    [ ] La forme fait un 90° sur la meme zone avant d'abandonner.
+    [ ] Intelligence ou meilleure methode pour trouver le placement d'une map par rapport à une autre. On tire au hasard pour l'instant.
+
+    [ ] Une "porte" / chemin devra relier les deux rooms une fois la suivante posée.
+    [ ] Un "corridor" peut les lier : rectangle à cheval sur les deux rooms.
+    [ ] Bordure de 1 - 3 de taille, pour ne pas se marcher dessus.
+    [ ] Sur chaque Rectangle, des emplacements "porte" / "passage". On essaie uniquement de raccrocher des passages à d'autres passages.
+
+    [ ] Une room peut être deux rectangles fusionnés, pour des formes plus sympas.
+    [ ] configurable, pour avoir differentes variantes selon Nature / Interieur
+
+    [ ] Une fois toutes les iterations faites, on regarde si il y a des passages possibles entre deux rooms autres.
+
+    [ ] Forme aleatoire des rooms, pour eviter sentiment artificiel.
             > Sur les bords, 55% 1, 45% 0. Si 010 = 000. Si 101 = 111.
+
+
+
+
+
