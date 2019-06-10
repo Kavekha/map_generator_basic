@@ -1,3 +1,16 @@
+v0.0.3
+    On construit la nouvelle salle à l'un des 8 points cardinaux autour de la salle de reference.
+    Si ca ne marche pas, on essait sur les suivants.
+    Point de depart de la première room : Forcement au milieu.
+    Bug : Room hors de la map considéré comme dans la map.
+    Bug : Room hors de contact des autres rooms (Direction fausse?)
+    Bug : 4° room de reference utilisée etait la premiere. Melange dans les loops?
+    Changement : 80 x 50 de taille de map.
+    Best scores (Du à l'anomalie):
+         >> END : Sucess : 31 - Collisions : 35 - Out of Map : 250 - Placement iteration : 285
+    Cas classique:
+        >> END : Sucess : 12 - Collisions : 52 - Out of Map : 492 - Placement iteration : 544
+
 v0.0.2
     [/] Une nouvelle room doit être testée au contact de la précédente.
     Refacto.
@@ -17,7 +30,10 @@ v0.0.1
 
 # TODO:
     [ ] La forme fait un 90° sur la meme zone avant d'abandonner.
-    [ ] Intelligence ou meilleure methode pour trouver le placement d'une map par rapport à une autre. On tire au hasard pour l'instant.
+    [/] Intelligence ou meilleure methode pour trouver le placement d'une map par rapport à une autre.
+
+    [ ] Reduire les problèmes d'orientation. Refacto code.
+    [ ] Reduire les Out of Map.
 
     [ ] Une "porte" / chemin devra relier les deux rooms une fois la suivante posée.
     [ ] Un "corridor" peut les lier : rectangle à cheval sur les deux rooms.

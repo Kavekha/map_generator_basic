@@ -3,8 +3,8 @@ from tile import Tile
 
 class GameMap:
     def __init__(self):
-        self.height = 30
-        self.width = 40
+        self.height = 50
+        self.width = 80
         self.tiles = self.init_tiles()
         self.layer = None
 
