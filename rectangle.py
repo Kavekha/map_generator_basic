@@ -1,3 +1,5 @@
+from random import randint
+
 
 class Rect:
     def __init__(self, x1, y1, x2, y2):
@@ -19,3 +21,14 @@ class Rect:
         self.y1 = y
         self.x2 += x
         self.y2 += y
+
+    @property
+    def center(self):
+        center_x = int((self.x1 + self.x2) / 2)
+        center_y = int((self.y1 + self.y2) / 2)
+
+        print('x1,x2 : {}, y1, y2 : {}. Center : {}'.format((self.x1, self.x2), (self.y1, self.y2), (center_x, center_y)
+                                                            ))
+        return center_x, center_y
+
+
