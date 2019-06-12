@@ -31,7 +31,10 @@ class GameMap:
                 if self.layer and self.layer.tiles[x][y].assigned:
                     string += '-'
                 elif self.tiles[x][y].assigned:
-                    string += '+'
+                    if self.tiles[x][y].corridor:
+                        string += 'x'
+                    else:
+                        string += '+'
                 else:
                     string += '.'
             string += '\n'

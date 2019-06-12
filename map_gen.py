@@ -6,7 +6,7 @@ from rectangle import Rect
 # Sera dans la config de la map?
 # Pas vraiment une room creation iteration :
 # Ici on limite le nombre de formes de room possible avant d'abandonner le placement. Il faut un autre chapeau.
-MAX_ROOM_CREATION_ITERATION = 100
+MAX_ROOM_CREATION_ITERATION = 50
 MAX_ROOM_PLACEMENT_ITERATION = 20
 
 
@@ -53,10 +53,6 @@ class MapGen:
             # self.wait()
             print('\n************ {} ******************\n'.format(self.creation_iteration))
 
-            # on créé, on montre.
-            room = self.generate_room()
-            self.show_room(room)
-
             # On choisi un emplacement cardinal au hasard autour de la dernière room de reference.
             starting_direction = randint(0, 7)
             first_direction = starting_direction
@@ -66,11 +62,21 @@ class MapGen:
             while self.room_placement_iteration < MAX_ROOM_PLACEMENT_ITERATION:
                 print('\n!!!! {} / {} !!!!!!!!*\n'.format(self.room_placement_iteration, self.creation_iteration))
 
-                print('current starting direction = ', starting_direction)
-
+                # on créé, on montre.
+                # corridor
+                corridor = self.generate_room()
+                corridor.corridor = True
+                self.show_room(corridor)
                 # On prends une position x, y du prochain rectangle autour de la derniere salle de reference.
-                x, y = self.get_random_position_around_room(self.current_ref_room, room, starting_direction)
+                x, y = self.get_random_position_around_room(self.current_ref_room, corridor, starting_direction)
+                corridor.new_position(x, y)
+
+                room = self.generate_room()
+                self.show_room(room)
+                x, y = self.get_random_position_around_room(corridor, room, starting_direction)
                 room.new_position(x, y)
+
+                print('current starting direction = ', starting_direction)
 
                 # on verifie si pas hors map.
                 if self.working_map.out_of_map(room):
@@ -79,9 +85,6 @@ class MapGen:
                     starting_direction += 1
                     if starting_direction > 7:
                         starting_direction = 0
-                    # si on a fait le tour complet, on arrete
-                    if starting_direction == first_direction:
-                        break
 
                     self.next_placement_iteration()
                     print('>>> OUT OF MAP')
@@ -89,10 +92,11 @@ class MapGen:
                     nb_placement_iterations += 1
                 else:
                     # si pas out of map, on mets sur layer.
+                    self.put_room_on_layer_map(corridor)
                     self.put_room_on_layer_map(room)
 
                     # on regarde si collision
-                    if self.working_map.get_collision(room):
+                    if self.working_map.get_collision(room) or self.working_map.get_collision(corridor):
                         self.show_working_map()
                         self.delete_layer()
 
@@ -110,6 +114,7 @@ class MapGen:
                         nb_placement_iterations += 1
                     else:
                         # on peut mettre sur la map de travail.
+                        self.put_room_on_working_map(corridor)
                         self.put_room_on_working_map(room)
                         self.delete_layer()
                         self.show_working_map()
@@ -144,10 +149,19 @@ class MapGen:
 
     def generate_room(self):
         x1, y1 = 0, 0
-        x2 = self.get_random_min_max_room_size()
-        y2 = self.get_random_min_max_room_size()
+        x2 = randint(ROOM_MIN_S_W, ROOM_MAX_S_W)
+        y2 = randint(ROOM_MIN_S_H, ROOM_MAX_S_H)
         room = Rect(x1, y1, x2, y2)
         return room
+
+    def generate_corridor(self, room, direction):
+        x1, y1 = 0, 0
+        x2 = randint(CORRIDOR_MIN_S_W, CORRIDOR_MAX_S_W)
+        y2 = randint(CORRIDOR_MIN_S_H, CORRIDOR_MAX_S_H)
+        corridor = Rect(x1, y1, x2, y2)
+        corridor.corridor = True
+        return corridor
+
 
     def put_room_on_layer_map(self, room):
         if not self.working_map.layer:
@@ -165,14 +179,13 @@ class MapGen:
     def show_room(self, room):
         print(room)
 
-    def carve_room(self, room, map):
-        for y in range(max(0, room.y1), min(room.y2, map.height)):
-            for x in range(max(0, room.x1), min(room.x2, map.width)):
-                map.tiles[x][y].assigned = True
+    def carve_room(self, room, gmap):
+        for y in range(max(0, room.y1), min(room.y2, gmap.height)):
+            for x in range(max(0, room.x1), min(room.x2, gmap.width)):
+                if room.corridor:
+                    gmap.tiles[x][y].corridor = True
+                gmap.tiles[x][y].assigned = True
 
-    def get_random_min_max_room_size(self):
-        x = randint(ROOM_MIN_S, ROOM_MAX_S)
-        return x
 
     def get_random_position_around_room(self, ref_room, new_room, starting_direction):
         x, y = ref_room.center
@@ -188,12 +201,18 @@ class MapGen:
         elif random == 2:
             # East
             x += int(ref_room.width / 2)
+            if ref_room.width % 2 != 0:
+                x += 1
         elif random == 3:
             # south
             y += int(ref_room.height / 2)
+            if ref_room.height % 2 != 0:
+                y += 1
         elif random == 4:
             # south West
             y += int(ref_room.height / 2)
+            if ref_room.height % 2 != 0:
+                y += 1
             x -= new_room.width
             x -= int(ref_room.width / 2)
         elif random == 5:
@@ -237,8 +256,15 @@ class MapGen:
 
 if __name__ == '__main__':
     # specs
-    ROOM_MIN_S = 3
-    ROOM_MAX_S = 8
+    ROOM_MIN_S_W = 5
+    ROOM_MAX_S_W = 9
+    ROOM_MIN_S_H = 3
+    ROOM_MAX_S_H = 7
+
+    CORRIDOR_MIN_S_W = 3
+    CORRIDOR_MAX_S_W = 5
+    CORRIDOR_MIN_S_H = 3
+    CORRIDOR_MAX_S_H = 5
 
     map_gen = MapGen()
     map_gen.run()

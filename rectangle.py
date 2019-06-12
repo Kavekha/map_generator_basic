@@ -7,14 +7,15 @@ class Rect:
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
+        self.corridor = None
 
     @property
     def width(self):
-        return self.x2 - self.x1
+        return abs(self.x2 - self.x1)
 
     @property
     def height(self):
-        return self.y2 - self.y1
+        return abs(self.y2 - self.y1)
 
     def __repr__(self):
         string = ''
