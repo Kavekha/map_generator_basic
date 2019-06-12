@@ -33,8 +33,8 @@ class MapGen:
             self.show_room(room)
 
             # On choisi un point au hasard
-            x = randint(0, self.working_map.width)
-            y = randint(0, self.working_map.height)
+            x = int(self.working_map.width / 2)
+            y = int(self.working_map.height / 2)
             room.new_position(x, y)
 
             # on regarde si position dans la map.
@@ -57,16 +57,32 @@ class MapGen:
             room = self.generate_room()
             self.show_room(room)
 
+            # On choisi un emplacement cardinal au hasard autour de la dernière room de reference.
+            starting_direction = randint(0, 7)
+            first_direction = starting_direction
+            print('First direction is ', first_direction)
+
             # On tente de poser la room autour de l'existante.
             while self.room_placement_iteration < MAX_ROOM_PLACEMENT_ITERATION:
                 print('\n!!!! {} / {} !!!!!!!!*\n'.format(self.room_placement_iteration, self.creation_iteration))
 
+                print('current starting direction = ', starting_direction)
+
                 # On prends une position x, y du prochain rectangle autour de la derniere salle de reference.
-                x, y = self.get_random_position_around_room(self.current_ref_room)
+                x, y = self.get_random_position_around_room(self.current_ref_room, room, starting_direction)
                 room.new_position(x, y)
 
                 # on verifie si pas hors map.
                 if self.working_map.out_of_map(room):
+
+                    # on change la direction suivante
+                    starting_direction += 1
+                    if starting_direction > 7:
+                        starting_direction = 0
+                    # si on a fait le tour complet, on arrete
+                    if starting_direction == first_direction:
+                        break
+
                     self.next_placement_iteration()
                     print('>>> OUT OF MAP')
                     nb_out_of_map += 1
@@ -79,6 +95,15 @@ class MapGen:
                     if self.working_map.get_collision(room):
                         self.show_working_map()
                         self.delete_layer()
+
+                        # on change la direction suivante
+                        starting_direction += 1
+                        if starting_direction > 7:
+                            starting_direction = 0
+                        # si on a fait le tour complet, on arrete
+                        if starting_direction == first_direction:
+                            break
+
                         self.next_placement_iteration()
                         print('>>>> COLLISION')
                         nb_collisions += 1
@@ -149,7 +174,47 @@ class MapGen:
         x = randint(ROOM_MIN_S, ROOM_MAX_S)
         return x
 
-    def get_random_position_around_room(self, room):
+    def get_random_position_around_room(self, ref_room, new_room, starting_direction):
+        x, y = ref_room.center
+        random = starting_direction
+        if random == 0:
+            # West
+            x -= new_room.width
+            x -= int(ref_room.width / 2)
+        elif random == 1:
+            # North
+            y -= new_room.height
+            y -= int(ref_room.height / 2)
+        elif random == 2:
+            # East
+            x += int(ref_room.width / 2)
+        elif random == 3:
+            # south
+            y += int(ref_room.height / 2)
+        elif random == 4:
+            # south West
+            y += int(ref_room.height / 2)
+            x -= new_room.width
+            x -= int(ref_room.width / 2)
+        elif random == 5:
+            # north West
+            y -= new_room.height
+            y -= int(ref_room.height / 2)
+            x -= new_room.width
+            x -= int(ref_room.width / 2)
+        elif random == 6:
+            # North East
+            y -= new_room.height
+            y -= int(ref_room.height / 2)
+            x += int(ref_room.width / 2)
+        elif random == 7:
+            # South East
+            y += int(ref_room.height / 2)
+            x += int(ref_room.width / 2)
+
+        return x, y
+
+    def old_get_random_position_around_room(self, room):
         x_or_y = randint(0, 1)
         if x_or_y == 0:
             x = randint(room.x1 - 1, room.x2 + 1)

@@ -8,6 +8,14 @@ class Rect:
         self.x2 = x2
         self.y2 = y2
 
+    @property
+    def width(self):
+        return self.x2 - self.x1
+
+    @property
+    def height(self):
+        return self.y2 - self.y1
+
     def __repr__(self):
         string = ''
         for y in range(self.y1, self.y2):
@@ -27,8 +35,6 @@ class Rect:
         center_x = int((self.x1 + self.x2) / 2)
         center_y = int((self.y1 + self.y2) / 2)
 
-        print('x1,x2 : {}, y1, y2 : {}. Center : {}'.format((self.x1, self.x2), (self.y1, self.y2), (center_x, center_y)
-                                                            ))
         return center_x, center_y
 
 
