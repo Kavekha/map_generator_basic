@@ -1,8 +1,16 @@
+v0.1.2
+    If PREVIOUS_ROOM_MAY_BE_ANY_ROOM: True, la room suivante ne sera pas forcement construite pour la precedente.
+    If CORRIDOR: True, a corridor of 1,10 tiles will be created if possible.
+    If ROOM_IF_NO_CORRIDOR_POSSIBLE: True, a room will be created if a corridor is not possible.
+    ===> Map bien plus variée.
+
 v0.1.1
     New map gen from scratch, with experience now.
     Against slow : No action on a map each time, this will be done at the end of the process.
     generate room is generic now.
     Better method to place room next to the previous one.
+
+
 
 PRE-RELEASE 0.1.0
     Too slow
