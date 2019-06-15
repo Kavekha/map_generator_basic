@@ -19,25 +19,25 @@ class GameMap:
         for y in range(room.y1, room.y2):
             for x in range(room.x1, room.x2):
                 if self.tiles[x][y].assigned:
-                    print('collision')
+                    print("collision")
                     return True
-        print('no collision')
+        print("no collision")
         return False
 
     def __repr__(self):
-        string = ''
+        string = ""
         for y in range(0, self.height):
             for x in range(0, self.width):
                 if self.layer and self.layer.tiles[x][y].assigned:
-                    string += '-'
+                    string += "-"
                 elif self.tiles[x][y].assigned:
                     if self.tiles[x][y].corridor:
-                        string += 'x'
+                        string += "x"
                     else:
-                        string += '+'
+                        string += "+"
                 else:
-                    string += '.'
-            string += '\n'
+                    string += "."
+            string += "\n"
         return string
 
     def out_of_map(self, room):

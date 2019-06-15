@@ -1,26 +1,18 @@
+v0.0.5
+    Passe Black & Pylint, pour la forme.
+    Retrait des directions "diagonales", sous config.
+    Retrait corridor, sous config.
+    Changement des MAX_ITERATION.
+
 v0.0.4
     On reconstruit la room desormais systematiquement, on essait pas a tout pris de placer celle existante.
     Les salles ont des min/ max plus grands pour les width que pour les height.
     Constat: Autant de rooms generées, mais toujours de grands gaps. Peu de hors map. Pluss de collisions.
-        >> END : Sucess : 31 - Collisions : 299 - Out of Map : 1 - Placement iteration : 300
-        >> END : Sucess : 29 - Collisions : 186 - Out of Map : 148 - Placement iteration : 334
-        >> END : Sucess : 12 - Collisions : 446 - Out of Map : 103 - Placement iteration : 549
-        >> END : Sucess : 37 - Collisions : 223 - Out of Map : 12 - Placement iteration : 235
     On ajoute des Corridors devant la nouvelle room.
     Le corridor peut tout ecraser, rien à faire.
     Legeres modifs pour les directions, où les Rooms pouvaient être mal placées par defaut a cause des divisions.
-     >> END : Sucess : 10 - Collisions : 353 - Out of Map : 1015 - Placement iteration : 1368
-     >> END : Sucess : 11 - Collisions : 539 - Out of Map : 246 - Placement iteration : 785
-     >> END : Sucess : 12 - Collisions : 367 - Out of Map : 804 - Placement iteration : 1171
-     >> END : Sucess : 17 - Collisions : 466 - Out of Map : 155 - Placement iteration : 621
      Constat: La map est plus sexy, et toutes les salles sont liées.
      Modifications des coordonnées selon la direction. TODO: Vraie algorithme-like.
-        >> END : Sucess : 13 - Collisions : 182 - Out of Map : 193 - Placement iteration : 375
-        >> END : Sucess : 17 - Collisions : 75 - Out of Map : 206 - Placement iteration : 281
-        >> END : Sucess : 19 - Collisions : 100 - Out of Map : 17 - Placement iteration : 117
-        >> END : Sucess : 10 - Collisions : 191 - Out of Map : 306 - Placement iteration : 497
-        >> END : Sucess : 10 - Collisions : 175 - Out of Map : 290 - Placement iteration : 465
-        >> END : Sucess : 5 - Collisions : 204 - Out of Map : 365 - Placement iteration : 569
      Constats : Formes plus sympas, mais très circulaires. Succès plus elevés, mais gros echecs encore possibles.
 
 v0.0.3
