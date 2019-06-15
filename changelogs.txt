@@ -1,3 +1,8 @@
+NEW PRE-RELEASE WIP
+
+
+PRE-RELEASE 0.1.0 : First try.
+
 v0.0.5
     Passe Black & Pylint, pour la forme.
     Retrait des directions "diagonales", sous config.
