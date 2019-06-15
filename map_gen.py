@@ -27,27 +27,39 @@ class MapGenerator:
         self.previous_room = None
 
     def run(self):
-        # On place la première room.
+
+        # FIRST ROOM
         while not self.rooms:
             room = self.generate_room(randint(0, MAP_WIDTH), randint(0, MAP_HEIGHT))
             if self.is_valid_position(room):
                 self.add_room(room)
 
-        # stats
+        # STATS
         nb_iterations = 0
         nb_success = 0
         nb_failure = 0
 
         while len(self.rooms) < MAX_ROOM and nb_iterations < MAX_ITERATION:
+            nb_iterations += 1
+
+            if PREVIOUS_ROOM_MAY_BE_ANY_ROOM:
+                self.previous_room = self.rooms[randint(0, len(self.rooms) - 1)]
+
             # Nous cherchons à placer la seconde room.
             room = self.generate_room(0, 0)
-
             direction = self.get_random_direction()
             room.position_relative_to_other_room_side(self.previous_room, direction)
 
-            if self.is_valid_position(room):
-                # Do we want corridor?
-                if CORRIDOR:
+            if not self.is_valid_position(room):
+                nb_failure += 1
+                continue
+            else:
+                if not CORRIDOR:
+                    self.add_room(room)
+                    nb_success += 1
+                    continue
+                else:
+                    # On va tenter de creer un Corridor et une salle au bout
                     width, height = 1, 1
                     if direction in ['north', 'south']:
                         height = room.height
@@ -62,50 +74,47 @@ class MapGenerator:
 
                     step = 1
                     max_steps = randint(1, 10)
+                    corridor_success = False
 
                     while step < max_steps:
-                        # print(f'{step} / {max_steps} steps')
                         step += 1
                         new_x, new_y = move
                         corridor.new_position(corridor.x1 + new_x, corridor.y1 + new_y)
                         if not self.is_valid_position(corridor):
                             # print('not valid, step ', step)
                             corridor.new_position(corridor.x1 - new_x, corridor.y1 - new_y)
+                            corridor_success = False
                             break
-                        # self.show_rooms_on_map()
+                        else:
+                            corridor_success = True
 
-                    room.position_relative_to_other_room_side(corridor, direction)
-                    if self.is_valid_position(room):
-                        width, height = 1, 1
-                        if direction in ['north', 'south']:
-                            height = abs(room.y2 - self.previous_room.y2)
-                        if direction in ['east', 'west']:
-                            width = abs(room.x2 - self.previous_room.x2)
+                    if corridor_success:
+                        # We can try to place the room at the end
+                        room.position_relative_to_other_room_side(corridor, direction)
 
-                        corridor = self.generate_room(0, 0, width, height)
-                        corridor.char = '+'
-                        corridor.position_relative_to_other_room_side(self.previous_room, direction)
-                        self.corridors.append(corridor)
-                        self.add_room(room)
-                        nb_success += 1
+                        if self.is_valid_position(room):
+                            width, height = 1, 1
+                            if direction in ['north', 'south']:
+                                height = abs(room.y2 - self.previous_room.y2)
+                            if direction in ['east', 'west']:
+                                width = abs(room.x2 - self.previous_room.x2)
+
+                            corridor = self.generate_room(0, 0, width, height)
+                            corridor.char = '+'
+                            corridor.position_relative_to_other_room_side(self.previous_room, direction)
+                            self.corridors.append(corridor)
+                            self.add_room(room)
+                            nb_success += 1
+                            continue
 
                     else:
                         corridor = None
-                        if ROOM_IF_NO_CORRIDOR_POSSIBLE:
-                            room.position_relative_to_other_room_side(self.previous_room, direction)
-                            self.add_room(room)
-                        nb_failure += 1
 
-                # Add the room as validated.
-                if not CORRIDOR:
+                # Si corridor impossible, on peut tjrs placer la salle.
+                if ROOM_IF_NO_CORRIDOR_POSSIBLE:
+                    room.position_relative_to_other_room_side(self.previous_room, direction)
                     self.add_room(room)
                     nb_success += 1
-            else:
-                nb_failure += 1
-
-            nb_iterations += 1
-            if PREVIOUS_ROOM_MAY_BE_ANY_ROOM:
-                self.previous_room = self.rooms[randint(0, len(self.rooms) - 1)]
 
         self.show_rooms_on_map()
         print(f'STATS : success {nb_success} - failures {nb_failure} '
@@ -166,13 +175,13 @@ class MapGenerator:
         for y in range(0, MAP_HEIGHT):
             for x in range(0, MAP_WIDTH):
                 char_to_add = '.'
-                for room in self.rooms:
-                    if y in range(room.y1, room.y2) and x in range(room.x1, room.x2):
-                        char_to_add = room.char
-                        break
                 for corridor in self.corridors:
                     if y in range(corridor.y1, corridor.y2) and x in range(corridor.x1, corridor.x2):
                         char_to_add = corridor.char
+                        break
+                for room in self.rooms:
+                    if y in range(room.y1, room.y2) and x in range(room.x1, room.x2):
+                        char_to_add = room.char
                         break
                 map_to_print += char_to_add
             map_to_print += "\n"
