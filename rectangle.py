@@ -4,7 +4,6 @@ class Rect:
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
-        self.corridor = None
 
     @property
     def width(self):
@@ -42,10 +41,12 @@ class Rect:
                 self.y1 < other.y2 and self.y2 > other.y1)
 
     def new_position(self, x, y):
+        width = self.width
+        height = self.height
         self.x1 = x
         self.y1 = y
-        self.x2 += x
-        self.y2 += y
+        self.x2 = x + width
+        self.y2 = y + height
 
     def position_relative_to_other_room_side(self, room, side='north'):
         side = side.lower()
