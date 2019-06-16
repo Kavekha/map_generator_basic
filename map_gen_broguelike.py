@@ -16,12 +16,12 @@ MAX_ROOM = 40
 MAX_ITERATION = 600
 MAX_ROOM_PLACEMENT_ITERATION = 20
 
-PREVIOUS_ROOM_MAY_BE_ANY_ROOM = True
-CORRIDOR = True
-ROOM_IF_NO_CORRIDOR_POSSIBLE = True
+CORRIDOR = 90
+ROOM_IF_NO_CORRIDOR_POSSIBLE = 10
+PREVIOUS_ROOM_MAY_BE_ANY_ROOM = 30
 
 
-class MapGenerator:
+class MapGeneratorBrogueLike:
     def __init__(self):
         self.rooms = []
         self.corridors = []
@@ -43,7 +43,7 @@ class MapGenerator:
         while len(self.rooms) < MAX_ROOM and nb_iterations < MAX_ITERATION:
             nb_iterations += 1
 
-            if PREVIOUS_ROOM_MAY_BE_ANY_ROOM:
+            if randint(0, 100) < PREVIOUS_ROOM_MAY_BE_ANY_ROOM:
                 self.previous_room = self.rooms[randint(0, len(self.rooms) - 1)]
 
             # Nous cherchons à placer une nouvelle room. room.
@@ -56,7 +56,7 @@ class MapGenerator:
                 continue
 
             # Pas de corridor à placer? Nous avons une room valide, on peut partir.
-            if not CORRIDOR:
+            if randint(0, 100) > CORRIDOR:
                 self.add_room(room)
                 nb_success += 1
                 continue
@@ -121,7 +121,7 @@ class MapGenerator:
                 return True
 
         # Si corridor impossible, on peut tjrs placer la salle.
-        if ROOM_IF_NO_CORRIDOR_POSSIBLE:
+        if randint(0, 100) < ROOM_IF_NO_CORRIDOR_POSSIBLE:
             room.position_relative_to_other_room_side(self.previous_room, direction)
             self.add_room(room)
             corridor = None
@@ -129,13 +129,13 @@ class MapGenerator:
         corridor = None
         return False
 
-    def place_room(self, x, y, from_room=None, direction=None):
+    def place_room(self, x, y, width=None, height=None, from_room=None, direction=None):
         iteration = 0
         while iteration < MAX_ROOM_PLACEMENT_ITERATION:
-            room = self.generate_room(x, y)
+            room = self.generate_room(x, y, width, height)
 
             if from_room and direction:
-                room.position_relative_to_other_room_side(self.previous_room, direction)
+                room.position_relative_to_other_room_side(from_room, direction)
 
             if self.is_valid_position(room):
                 return room
@@ -211,7 +211,7 @@ def get_random_direction():
     return directions[rand]
 
 def main():
-    map_gen = MapGenerator()
+    map_gen = MapGeneratorBrogueLike()
     map_gen.run()
 
 
