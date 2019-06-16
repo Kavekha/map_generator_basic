@@ -1,3 +1,26 @@
+v0.1.3
+    Refacto map_gen pour plus de lisibilité.
+
+v0.1.2
+    If PREVIOUS_ROOM_MAY_BE_ANY_ROOM: True, la room suivante ne sera pas forcement construite pour la precedente.
+    If CORRIDOR: True, a corridor of 1,10 tiles will be created if possible.
+    If ROOM_IF_NO_CORRIDOR_POSSIBLE: True, a room will be created if a corridor is not possible.
+    ===> Map bien plus variée.
+
+v0.1.1
+    New map gen from scratch, with experience now.
+    Against slow : No action on a map each time, this will be done at the end of the process.
+    generate room is generic now.
+    Better method to place room next to the previous one.
+
+
+
+PRE-RELEASE 0.1.0
+    Too slow
+    Hard to read
+    Very hacky
+    Big gap between 2 run.
+
 v0.0.5
     Passe Black & Pylint, pour la forme.
     Retrait des directions "diagonales", sous config.
@@ -46,19 +69,16 @@ v0.0.1
 
 
 # TODO:
-    [ ] Reduire les gros ecarts de succès : de 7 à 35 rooms, c'est un trop grand ecart. Il faut en garantir au moins 30.
-    [/] Intelligence ou meilleure methode pour trouver le placement d'une map par rapport à une autre.
+    [ ] Reduire les gros ecarts de succès : de 7 à 35 rooms, c'est un trop grand ecart.
+    [ ] Si en dessous d'un min ROOM ou de 10% de moins que MAX, on refait tout.
 
     [ ] Les salles Corridors / Rooms doivent être pluss en contact, pour permettre l'existence de passage.
-    [ ] Meilleur "algorithme" pour le placement selon la direction. Trop specifique pour le moment.
-
-    [ ] Reduire les problèmes d'orientation. Refacto code.
-    [/] Reduire les Out of Map.
 
     [ ] Une "porte" / chemin devra relier les deux rooms une fois la suivante posée.
-    [ ] Un "corridor" peut les lier : rectangle à cheval sur les deux rooms.
 
+    [ ] Un "corridor" peut les lier : rectangle à cheval sur les deux rooms.
     [ ] Bordure de 1 - 3 de taille, pour ne pas se marcher dessus.
+
     [ ] Sur chaque Rectangle, des emplacements "porte" / "passage". On essaie uniquement de raccrocher des passages à d'autres passages.
 
     [ ] Une room peut être deux rectangles fusionnés, pour des formes plus sympas.
