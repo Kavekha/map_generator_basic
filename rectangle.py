@@ -4,6 +4,7 @@ class Rect:
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
+        self.char = 'x'
 
     @property
     def width(self):
@@ -37,16 +38,27 @@ class Rect:
         return self.x2, (self.y1 + self.y2) // 2
 
     def intersect(self, other):
+        if self == other:
+            return False
         return (self.x1 < other.x2 and self.x2 > other.x1 and
                 self.y1 < other.y2 and self.y2 > other.y1)
 
     def new_position(self, x, y):
-        width = self.width
-        height = self.height
+        width = abs(self.x2 - self.x1)
+        height = abs(self.y2 - self.y1)
         self.x1 = x
         self.y1 = y
         self.x2 = x + width
         self.y2 = y + height
+
+    def sanity_check(self):
+        print('sanity before : ', self.x1, self.y1, self.x2, self.y2)
+        x1, y1, x2, y2 = self.x1, self.y1, self.x2, self.y2
+        self.x1 = min(x1, x2)
+        self.x2 = max(x1, x2)
+        self.y1 = min(y1, y2)
+        self.y2 = max(y1, y2)
+        print('sanity after: ', self.x1, self.y1, self.x2, self.y2)
 
     def position_relative_to_other_room_side(self, room, side='north'):
         side = side.lower()
@@ -78,7 +90,3 @@ class Rect:
                 string += "#"
             string += "\n"
         return string
-
-
-
-
