@@ -1,3 +1,6 @@
+v0.1.3
+    Refacto map_gen pour plus de lisibilité.
+
 v0.1.2
     If PREVIOUS_ROOM_MAY_BE_ANY_ROOM: True, la room suivante ne sera pas forcement construite pour la precedente.
     If CORRIDOR: True, a corridor of 1,10 tiles will be created if possible.
