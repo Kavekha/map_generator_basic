@@ -1,6 +1,11 @@
+v0.2.2
+    map gen base comme classe mère des Map Gen.
+    MapGen Jotaf and BrogueLike héritent de MapGenBase.
+
 v0.2.1
     fix : generate_room prends bien en compte la room attribuée et non la previous room.
     fix : place_room utilise correctement le generate_room, avec les bons arguments.
+    map generator based on Jotaf method.
 
 
 PRE-RELEASE 0.2.0-Dev : basic brogue-like map gen
