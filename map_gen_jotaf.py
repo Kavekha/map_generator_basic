@@ -6,6 +6,7 @@ from map_gen_base import MapGenBase
 # Map generator, based on Jotaf Tutorial.
 class MapGeneratorJotaf(MapGenBase):
     def run(self):
+        print('MAP GEN JOTAF RUN!')
         nb_iterations = 0
 
         while len(self.rooms) < self.max_rooms and nb_iterations < self.max_iterations:
@@ -51,8 +52,6 @@ class MapGeneratorJotaf(MapGenBase):
 
     def create_v_tunnel(self, y1, y2, x):
         return self.place_room(x, y1, 1, y2, can_intersect=True)
-
-
 
 
 def main():
