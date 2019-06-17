@@ -1,3 +1,24 @@
+v0.2.2
+    map gen base comme classe mère des Map Gen.
+    MapGen Jotaf and BrogueLike héritent de MapGenBase.
+
+v0.2.1
+    fix : generate_room prends bien en compte la room attribuée et non la previous room.
+    fix : place_room utilise correctement le generate_room, avec les bons arguments.
+    map generator based on Jotaf method.
+
+
+PRE-RELEASE 0.2.0-Dev : basic brogue-like map gen
+    Create room next to a previoulsy created room.
+    If corridor activated (CORRIDOR > 0), will create a corridor then a room at the end of it.
+    If ROOM_IF_NO_CORRIDOR_POSSIBLE activated (> 0), and can't create a corridor, will try to create a room instead.
+    If PREVIOUS_ROOM_MAY_BE_ANY_ROOM activated (> 0), may try to create a room from a previous room instead of the last created.
+    Fast enough!
+    More reliable on the number of rooms created.
+
+v0.1.4
+    PREVIOUS_ROOM_MAY_BE_ANY_ROOM, CORRIDOR and ROOM_IF_NO_CORRIDOR_POSSIBLE are now % based. 100% = True, 0 = False.
+
 v0.1.3
     Refacto map_gen pour plus de lisibilité.
 
@@ -15,7 +36,7 @@ v0.1.1
 
 
 
-PRE-RELEASE 0.1.0
+PRE-RELEASE 0.1.0 : First try
     Too slow
     Hard to read
     Very hacky
@@ -69,25 +90,21 @@ v0.0.1
 
 
 # TODO:
-    [ ] Reduire les gros ecarts de succès : de 7 à 35 rooms, c'est un trop grand ecart.
-    [ ] Si en dessous d'un min ROOM ou de 10% de moins que MAX, on refait tout.
+    [ ] 500 Convertible en GameMap, pour usage dans jeu.
+    [ ] 250 Generation de map sur la base de l'algo de Jotaf.
 
-    [ ] Les salles Corridors / Rooms doivent être pluss en contact, pour permettre l'existence de passage.
+    [ ] 100 Si en dessous d'un min ROOM ou de 10% de moins que MAX, on refait tout.
+    [ ] 250 Tests autos!
 
-    [ ] Une "porte" / chemin devra relier les deux rooms une fois la suivante posée.
+    [ ] 100 Bordure de 1 - 3 de taille, pour plus d'espaces.
+    [ ] 250 Lier les rooms proches l'une à l'autre via corridors ou passages, pour plus de loops et moins de backtrack.
 
-    [ ] Un "corridor" peut les lier : rectangle à cheval sur les deux rooms.
-    [ ] Bordure de 1 - 3 de taille, pour ne pas se marcher dessus.
-
-    [ ] Sur chaque Rectangle, des emplacements "porte" / "passage". On essaie uniquement de raccrocher des passages à d'autres passages.
-
-    [ ] Une room peut être deux rectangles fusionnés, pour des formes plus sympas.
-    [ ] configurable, pour avoir differentes variantes selon Nature / Interieur
-
-    [ ] Une fois toutes les iterations faites, on regarde si il y a des passages possibles entre deux rooms autres.
-
-    [ ] Forme aleatoire des rooms, pour eviter sentiment artificiel.
+    [ ] 250 Une room peut être deux rectangles fusionnés, pour des formes plus sympas.
+    [ ] 100 Forme aleatoire des rooms, pour eviter sentiment artificiel.
             > Sur les bords, 55% 1, 45% 0. Si 010 = 000. Si 101 = 111.
+
+    [ ] 100 configurable, pour avoir differentes variantes selon Nature / Interieur
+
 
 
 
