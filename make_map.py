@@ -72,9 +72,4 @@ def make_indestructible_barriers(tiles, map_width, map_height):
 
 def initialize_tiles(map_width, map_height):
         tiles = [[Tile(True) for y in range(map_height)] for x in range(map_width)]
-
-        for x in range(map_width):
-            for y in range(map_height):
-                pass
-
         return tiles
