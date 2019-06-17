@@ -106,3 +106,12 @@ class MapGenBase:
             map_to_print += "\n"
 
         print(map_to_print)
+
+    def get_results(self):
+        results = {
+            'map_width': self.map_width,
+            'map_height': self.map_height,
+            'rooms': self.rooms,
+            'corridors': self.corridors
+        }
+        return results

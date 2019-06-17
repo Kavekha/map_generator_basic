@@ -1,3 +1,7 @@
+v0.2.3
+    make_map est une fonction qui créée la map (tiles, rooms & corridors) et la transmets à GameMap.
+    GameMap peut ainsi servir à gerer la map "in game", sans avoir la responsabilité de se creer elle-même.
+
 v0.2.2
     map gen base comme classe mère des Map Gen.
     MapGen Jotaf and BrogueLike héritent de MapGenBase.

@@ -1,6 +1,6 @@
 from random import randint
 
-from utils_map_gen import get_direction_values, get_random_direction
+from utils_map_gen import get_random_direction, get_direction_values
 from map_gen_base import MapGenBase
 
 
